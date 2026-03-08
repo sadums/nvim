@@ -5,13 +5,12 @@ My personal neovim configuration, based on [nvim-lite](https://github.com/radley
 ## Design Philosophy
 
 ### Single-file configuration
-Everything lives in one `init.lua`. No split lua modules, no `lua/` subdirectory hierarchy. The trade-off is simplicity and portability over modularity, the entire config can be read top-to-bottom as one coherent document.
+Everything lives in one `init.lua`. The entire config can be read top-to-bottom as one coherent document.
 
 ### Native tooling over plugins
-The config uses Neovim's built-in `vim.pack` (0.11+) for package management, native LSP (`vim.lsp.config`, `vim.lsp.enable`) over wrapper plugins like lsp-zero, and a hand-crafted statusline rather than lualine or feline. The philosophy is to lean on what Neovim provides before reaching for a plugin.
+The config uses Neovim's built-in `vim.pack` (0.12+) for package management, native LSP (`vim.lsp.config`, `vim.lsp.enable`), and a hand-crafted statusline. The philosophy is to lean on what Neovim provides before reaching for a plugin.
 
-### Curated, purposeful plugin set
-Plugins are chosen to fill specific gaps rather than for convenience:
+### Plugins
 - `mini.nvim` — a modular utility library covering comments, surround, pairs, indent, buffers, icons, and notifications
 - `nvim-treesitter` — syntax highlighting and expression-based folding
 - `fzf-lua` — fuzzy finding for files, grep, buffers, LSP symbols, and diagnostics
