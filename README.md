@@ -7,18 +7,17 @@ My personal neovim configuration, based on [nvim-lite](https://github.com/radley
 ### Single-file configuration
 Everything lives in one `init.lua`. The entire config can be read top-to-bottom as one coherent document.
 
-### Native tooling over plugins
-The config uses Neovim's built-in `vim.pack` (0.12+) for package management, native LSP (`vim.lsp.config`, `vim.lsp.enable`), and a hand-crafted statusline. The philosophy is to lean on what Neovim provides before reaching for a plugin.
-
 ### Plugins
-- `mini.nvim` — a modular utility library covering comments, surround, pairs, indent, buffers, icons, and notifications
-- `nvim-treesitter` — syntax highlighting and expression-based folding
-- `fzf-lua` — fuzzy finding for files, grep, buffers, LSP symbols, and diagnostics
-- `nvim-tree.lua` — file explorer
-- `gitsigns.nvim` — git hunk signs, staging, blame, and diff
-- `blink.cmp` — Rust-based completion engine with LuaSnip snippet support
-- `efm-langserver` + `efmls-configs-nvim` — unified linting and formatting via a single LSP server
-- `mason.nvim` — LSP/tool installer
-- `kanagawa.nvim` — colorscheme
-- `windsurf.vim` — AI code assistance
-- `which-key.nvim` — keybinding discoverability
+- [mini.nvim](https://github.com/echasnovski/mini.nvim)
+- [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)
+- [fzf-lua](https://github.com/ibhagwan/fzf-lua)
+- [nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua)
+- [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim)
+- [blink.cmp](https://github.com/saghen/blink.cmp)
+- [LuaSnip](https://github.com/L3MON4D3/LuaSnip)
+- [efmls-configs-nvim](https://github.com/creativenull/efmls-configs-nvim)
+- [mason.nvim](https://github.com/mason-org/mason.nvim)
+- [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig)
+- [kanagawa.nvim](https://github.com/rebelot/kanagawa.nvim)
+- [windsurf.vim](https://github.com/Exafunction/windsurf.vim)
+- [which-key.nvim](https://github.com/folke/which-key.nvim)
