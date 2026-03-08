@@ -454,7 +454,7 @@ packadd("blink.cmp")
 packadd("LuaSnip")
 packadd("kanagawa.nvim")
 packadd("windsurf.vim")
-packdd("which-key.nvim")
+packadd("which-key.nvim")
 vim.cmd.colorscheme("kanagawa-dragon")
 
 -- ============================================================================
