@@ -434,6 +434,8 @@ vim.pack.add({
 		version = vim.version.range("1.*"),
 	},
 	"https://github.com/L3MON4D3/LuaSnip",
+  "https://github.com/Exafunction/windsurf.vim",
+  "https://github.com/folke/which-key.nvim"
 })
 
 local function packadd(name)
@@ -451,6 +453,8 @@ packadd("efmls-configs-nvim")
 packadd("blink.cmp")
 packadd("LuaSnip")
 packadd("kanagawa.nvim")
+packadd("windsurf.vim")
+packdd("which-key.nvim")
 vim.cmd.colorscheme("kanagawa-dragon")
 
 -- ============================================================================
