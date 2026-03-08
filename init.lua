@@ -78,7 +78,6 @@ vim.opt.autowrite = false -- do not auto-save
 
 vim.opt.hidden = true -- allow hidden buffers
 vim.opt.errorbells = false -- no error sounds
-vim.opt.backspace = "indent,eol,start" -- better backspace behaviour
 vim.opt.autochdir = false -- do not autochange directories
 vim.opt.iskeyword:append("-") -- include - in words
 vim.opt.path:append("**") -- include subdirs in search
@@ -881,10 +880,10 @@ local function FloatingTerminal()
 		vim.bo[terminal_state.buf].bufhidden = "hide"
 	end
 
-	local width = math.floor(vim.o.columns * 0.8)
-	local height = math.floor(vim.o.lines * 0.8)
-	local row = math.floor((vim.o.lines - height) / 2)
-	local col = math.floor((vim.o.columns - width) / 2)
+	local width = vim.o.columns
+	local height = math.floor(vim.o.lines * 0.2)
+	local row = math.floor(vim.o.lines * 0.8)
+	local col = 0
 
 	terminal_state.win = vim.api.nvim_open_win(terminal_state.buf, true, {
 		relative = "editor",
