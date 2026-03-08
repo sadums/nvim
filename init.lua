@@ -233,8 +233,6 @@ local function setup_dynamic_statusline()
 				"%{v:lua.git_branch()}",
 				"\u{e0b1} ", -- nf-pl-left_hard_divider
 				"%{v:lua.file_type()}",
-				"\u{e0b1} ", -- nf-pl-left_hard_divider
-				"%{v:lua.file_size()}",
 				"%=", -- Right-align everything after this
 				" \u{f017} %l:%c  %P ", -- nf-fa-clock_o for line/col
 			})
