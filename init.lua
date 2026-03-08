@@ -583,6 +583,20 @@ require("gitsigns").setup({
 
 require("mason").setup({})
 
+vim.g.codeium_no_map_tab = 1
+vim.keymap.set("i", "<C-g>", function()
+	return vim.fn["codeium#Accept"]()
+end, { expr = true, silent = true, desc = "Windsurf: accept suggestion" })
+vim.keymap.set("i", "<C-n>", function()
+	return vim.fn["codeium#CycleCompletions"](1)
+end, { expr = true, silent = true, desc = "Windsurf: next suggestion" })
+vim.keymap.set("i", "<C-p>", function()
+	return vim.fn["codeium#CycleCompletions"](-1)
+end, { expr = true, silent = true, desc = "Windsurf: previous suggestion" })
+vim.keymap.set("i", "<C-x>", function()
+	return vim.fn["codeium#Clear"]()
+end, { expr = true, silent = true, desc = "Windsurf: clear suggestion" })
+
 vim.keymap.set("n", "]h", function()
 	require("gitsigns").next_hunk()
 end, { desc = "Next git hunk" })
@@ -657,59 +671,58 @@ local function lsp_on_attach(ev)
 	end
 
 	local bufnr = ev.buf
-	local opts = { noremap = true, silent = true, buffer = bufnr }
+	local function map(lhs, rhs, desc)
+		vim.keymap.set("n", lhs, rhs, { noremap = true, silent = true, buffer = bufnr, desc = desc })
+	end
 
-	vim.keymap.set("n", "<leader>gd", function()
+	map("<leader>gd", function()
 		require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-	end, opts)
-
-	vim.keymap.set("n", "<leader>gD", vim.lsp.buf.definition, opts)
-
-	vim.keymap.set("n", "<leader>gS", function()
+	end, "Go to definition")
+	map("<leader>gD", vim.lsp.buf.definition, "Go to definition (native)")
+	map("<leader>gS", function()
 		vim.cmd("vsplit")
 		vim.lsp.buf.definition()
-	end, opts)
+	end, "Go to definition in vsplit")
 
-	vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+	map("<leader>ca", vim.lsp.buf.code_action, "Code action")
+	map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
 
-	vim.keymap.set("n", "<leader>D", function()
+	map("<leader>D", function()
 		vim.diagnostic.open_float({ scope = "line" })
-	end, opts)
-	vim.keymap.set("n", "<leader>d", function()
+	end, "Line diagnostics")
+	map("<leader>d", function()
 		vim.diagnostic.open_float({ scope = "cursor" })
-	end, opts)
-	vim.keymap.set("n", "<leader>nd", function()
+	end, "Cursor diagnostics")
+	map("<leader>nd", function()
 		vim.diagnostic.jump({ count = 1 })
-	end, opts)
-
-	vim.keymap.set("n", "<leader>pd", function()
+	end, "Next diagnostic")
+	map("<leader>pd", function()
 		vim.diagnostic.jump({ count = -1 })
-	end, opts)
+	end, "Previous diagnostic")
 
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+	map("K", vim.lsp.buf.hover, "Hover documentation")
 
-	vim.keymap.set("n", "<leader>fd", function()
+	map("<leader>fd", function()
 		require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-	end, opts)
-	vim.keymap.set("n", "<leader>fr", function()
+	end, "Find definition")
+	map("<leader>fr", function()
 		require("fzf-lua").lsp_references()
-	end, opts)
-	vim.keymap.set("n", "<leader>ft", function()
+	end, "Find references")
+	map("<leader>ft", function()
 		require("fzf-lua").lsp_typedefs()
-	end, opts)
-	vim.keymap.set("n", "<leader>fs", function()
+	end, "Find type definition")
+	map("<leader>fs", function()
 		require("fzf-lua").lsp_document_symbols()
-	end, opts)
-	vim.keymap.set("n", "<leader>fw", function()
+	end, "Find document symbols")
+	map("<leader>fw", function()
 		require("fzf-lua").lsp_workspace_symbols()
-	end, opts)
-	vim.keymap.set("n", "<leader>fi", function()
+	end, "Find workspace symbols")
+	map("<leader>fi", function()
 		require("fzf-lua").lsp_implementations()
-	end, opts)
+	end, "Find implementations")
 
 	if client:supports_method("textDocument/codeAction", bufnr) then
-		vim.keymap.set("n", "<leader>oi", function()
+		map("<leader>oi", function()
 			vim.lsp.buf.code_action({
 				context = { only = { "source.organizeImports" }, diagnostics = {} },
 				apply = true,
@@ -718,7 +731,7 @@ local function lsp_on_attach(ev)
 			vim.defer_fn(function()
 				vim.lsp.buf.format({ bufnr = bufnr })
 			end, 50)
-		end, opts)
+		end, "Organize imports")
 	end
 end
 
@@ -771,6 +784,7 @@ vim.lsp.config("bashls", {})
 vim.lsp.config("ts_ls", {})
 vim.lsp.config("gopls", {})
 vim.lsp.config("clangd", {})
+vim.lsp.config("rust_analyzer", {})
 
 do
 	local luacheck = require("efmls-configs.linters.luacheck")
@@ -845,5 +859,119 @@ vim.lsp.enable({
 	"ts_ls",
 	"gopls",
 	"clangd",
+	"rust_analyzer",
 	"efm",
+})
+
+-- ============================================================================
+-- WHICH-KEY
+-- ============================================================================
+require("which-key").setup({
+	delay = 0,
+	icons = { mappings = true },
+})
+
+require("which-key").add({
+	-- Groups
+	{ "<leader>b", group = "Buffers" },
+	{ "<leader>c", group = "Clear" },
+	{ "<leader>d", group = "Diagnostics" },
+	{ "<leader>f", group = "Find / LSP" },
+	{ "<leader>g", group = "Go To" },
+	{ "<leader>h", group = "Git Hunks" },
+	{ "<leader>o", group = "Organize" },
+	{ "<leader>p", group = "Path / Paste" },
+	{ "<leader>r", group = "Rename" },
+	{ "<leader>s", group = "Split" },
+	{ "<leader>t", group = "Toggle" },
+
+	-- Navigation
+	{ "j", desc = "Down (wrap-aware)" },
+	{ "k", desc = "Up (wrap-aware)" },
+	{ "J", desc = "Join lines (keep cursor)" },
+	{ "n", desc = "Next search result (centered)" },
+	{ "N", desc = "Previous search result (centered)" },
+	{ "<C-d>", desc = "Half page down (centered)" },
+	{ "<C-u>", desc = "Half page up (centered)" },
+
+	-- Window navigation
+	{ "<C-h>", desc = "Move to left window" },
+	{ "<C-j>", desc = "Move to bottom window" },
+	{ "<C-k>", desc = "Move to top window" },
+	{ "<C-l>", desc = "Move to right window" },
+	{ "<C-Up>", desc = "Increase window height" },
+	{ "<C-Down>", desc = "Decrease window height" },
+	{ "<C-Left>", desc = "Decrease window width" },
+	{ "<C-Right>", desc = "Increase window width" },
+
+	-- Line movement (normal)
+	{ "<A-j>", desc = "Move line down" },
+	{ "<A-k>", desc = "Move line up" },
+
+	-- LSP (set per-buffer in lsp_on_attach; listed here for global visibility)
+	{ "K", desc = "Hover documentation" },
+
+	-- Git hunk navigation
+	{ "]h", desc = "Next git hunk" },
+	{ "[h", desc = "Previous git hunk" },
+
+	-- Leader bindings
+	{ "<leader>c", desc = "Clear search highlights" },
+	{ "<leader>e", desc = "Focus file explorer" },
+	{ "<leader>q", desc = "Open diagnostic list" },
+	{ "<leader>x", desc = "Delete without yanking", mode = { "n", "v" } },
+
+	{ "<leader>bn", desc = "Next buffer" },
+	{ "<leader>bp", desc = "Previous buffer" },
+
+	{ "<leader>dl", desc = "Show line diagnostics" },
+
+	{ "<leader>fb", desc = "Find buffers" },
+	{ "<leader>fd", desc = "Find definition" },
+	{ "<leader>fe", desc = "Toggle file explorer" },
+	{ "<leader>ff", desc = "Find files" },
+	{ "<leader>fg", desc = "Live grep" },
+	{ "<leader>fh", desc = "Find help tags" },
+	{ "<leader>fi", desc = "Find implementations" },
+	{ "<leader>fr", desc = "Find references" },
+	{ "<leader>fs", desc = "Find document symbols" },
+	{ "<leader>ft", desc = "Find type definition" },
+	{ "<leader>fw", desc = "Find workspace symbols" },
+	{ "<leader>fx", desc = "Diagnostics (document)" },
+	{ "<leader>fX", desc = "Diagnostics (workspace)" },
+
+	{ "<leader>gd", desc = "Go to definition" },
+	{ "<leader>gD", desc = "Go to definition (native)" },
+	{ "<leader>gS", desc = "Go to definition in vsplit" },
+
+	{ "<leader>ca", desc = "Code action" },
+	{ "<leader>rn", desc = "Rename symbol" },
+
+	{ "<leader>D", desc = "Line diagnostics" },
+	{ "<leader>d", desc = "Cursor diagnostics" },
+	{ "<leader>nd", desc = "Next diagnostic" },
+	{ "<leader>pd", desc = "Previous diagnostic" },
+
+	{ "<leader>hb", desc = "Blame line" },
+	{ "<leader>hB", desc = "Toggle inline blame" },
+	{ "<leader>hd", desc = "Diff this" },
+	{ "<leader>hp", desc = "Preview hunk" },
+	{ "<leader>hr", desc = "Reset hunk" },
+	{ "<leader>hs", desc = "Stage hunk" },
+
+	{ "<leader>oi", desc = "Organize imports" },
+
+	{ "<leader>pa", desc = "Copy full file path" },
+	{ "<leader>p", desc = "Paste without yanking", mode = "x" },
+
+	{ "<leader>sh", desc = "Split horizontally" },
+	{ "<leader>sv", desc = "Split vertically" },
+
+	{ "<leader>td", desc = "Toggle diagnostics" },
+
+	-- Visual mode
+	{ "<", desc = "Indent left and reselect", mode = "v" },
+	{ ">", desc = "Indent right and reselect", mode = "v" },
+	{ "<A-j>", desc = "Move selection down", mode = "v" },
+	{ "<A-k>", desc = "Move selection up", mode = "v" },
 })
