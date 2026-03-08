@@ -2,7 +2,7 @@
 My personal neovim configuration, based on [nvim-lite](https://github.com/radleylewis/nvim-lite/blob/master/init.lua).
 
 ### Single-file configuration
-Everything lives in one `init.lua`. The entire config can be read one coherent document.
+Everything lives in `init.lua`. The entire config can be read as one coherent document.
 
 ### Plugins
 - [mini.nvim](https://github.com/echasnovski/mini.nvim)
