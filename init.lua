@@ -542,6 +542,7 @@ require("nvim-tree").setup({
 	},
 	filters = {
 		dotfiles = false,
+		git_ignored = false,
 	},
 	renderer = {
 		group_empty = true,
