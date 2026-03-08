@@ -413,27 +413,53 @@ vim.api.nvim_create_autocmd("FileType", {
 -- PLUGINS (vim.pack)
 -- ============================================================================
 vim.pack.add({
-  "https://www.github.com/rebelot/kanagawa.nvim",
-	"https://www.github.com/lewis6991/gitsigns.nvim",
-	"https://www.github.com/echasnovski/mini.nvim",
+	-- No versioned releases; tracks HEAD
+	"https://www.github.com/rebelot/kanagawa.nvim",
+	-- No versioned releases; tracks HEAD
 	"https://www.github.com/ibhagwan/fzf-lua",
+	-- Non-standard tag format (nvim-tree-vX.Y.Z); tracks HEAD
 	"https://www.github.com/nvim-tree/nvim-tree.lua",
 	{
+		src = "https://www.github.com/lewis6991/gitsigns.nvim",
+		version = vim.version.range("~2.0.0"), -- latest: v2.0.0
+	},
+	{
+		src = "https://www.github.com/echasnovski/mini.nvim",
+		version = vim.version.range("~0.17.0"), -- latest: v0.17.0
+	},
+	{
 		src = "https://github.com/nvim-treesitter/nvim-treesitter",
-		branch = "main",
+		version = vim.version.range("~0.10.0"), -- latest: v0.10.0
 		build = ":TSUpdate",
 	},
-	-- Language Server Protocols
-	"https://www.github.com/neovim/nvim-lspconfig",
-	"https://github.com/mason-org/mason.nvim",
-	"https://github.com/creativenull/efmls-configs-nvim",
+	{
+		src = "https://www.github.com/neovim/nvim-lspconfig",
+		version = vim.version.range("~2.6.0"), -- latest: v2.6.0
+	},
+	{
+		src = "https://github.com/mason-org/mason.nvim",
+		version = vim.version.range("~2.2.1"), -- latest: v2.2.1
+	},
+	{
+		src = "https://github.com/creativenull/efmls-configs-nvim",
+		version = vim.version.range("~1.11.0"), -- latest: v1.11.0
+	},
 	{
 		src = "https://github.com/saghen/blink.cmp",
-		version = vim.version.range("1.*"),
+		version = vim.version.range("~1.9.1"), -- latest: v1.9.1
 	},
-	"https://github.com/L3MON4D3/LuaSnip",
-  "https://github.com/Exafunction/windsurf.vim",
-  "https://github.com/folke/which-key.nvim"
+	{
+		src = "https://github.com/L3MON4D3/LuaSnip",
+		version = vim.version.range("~2.4.1"), -- latest: v2.4.1
+	},
+	{
+		src = "https://github.com/Exafunction/windsurf.vim",
+		version = vim.version.range("~1.20.8"), -- latest: v1.20.8
+	},
+	{
+		src = "https://github.com/folke/which-key.nvim",
+		version = vim.version.range("~3.17.0"), -- latest: v3.17.0
+	},
 })
 
 local function packadd(name)
