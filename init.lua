@@ -460,6 +460,8 @@ vim.pack.add({
 		src = "https://github.com/folke/which-key.nvim",
 		version = vim.version.range("~3.17.0"), -- latest: v3.17.0
 	},
+	-- No versioned releases; tracks HEAD
+	"https://github.com/OXY2DEV/markview.nvim",
 })
 
 local function packadd(name)
@@ -479,6 +481,7 @@ packadd("LuaSnip")
 packadd("kanagawa.nvim")
 packadd("windsurf.vim")
 packadd("which-key.nvim")
+packadd("markview.nvim")
 vim.cmd.colorscheme("kanagawa-dragon")
 
 -- ============================================================================
@@ -593,6 +596,9 @@ require("mini.trailspace").setup({})
 require("mini.bufremove").setup({})
 require("mini.notify").setup({})
 require("mini.icons").setup({})
+
+require("markview").setup({})
+vim.keymap.set("n", "<leader>m", "<cmd>Markview toggle<CR>", { desc = "Toggle Markview" })
 
 require("gitsigns").setup({
 	signs = {
@@ -994,6 +1000,7 @@ require("which-key").add({
 	{ "<leader>sv", desc = "Split vertically" },
 
 	{ "<leader>td", desc = "Toggle diagnostics" },
+	{ "<leader>m", desc = "Toggle Markview" },
 
 	-- Visual mode
 	{ "<", desc = "Indent left and reselect", mode = "v" },
